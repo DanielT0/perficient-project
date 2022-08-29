@@ -2,6 +2,9 @@ import { protect, signup } from "./../controllers/authController";
 import { check } from "express-validator";
 import {
   createUser,
+  deleteUser,
+  getAllUsers,
+  getUser,
   updateUser,
   updateUserPartially,
 } from "./../controllers/userController";
@@ -10,8 +13,12 @@ import validarCampos from "../utils/validar-campos";
 
 const router = express.Router();
 
-router.route("/").post(signup);
-router.route("/:id").patch(protect, updateUserPartially);
+router.route("/").post(signup).get(protect, getAllUsers);
+router
+  .route("/:id")
+  .patch(protect, updateUserPartially)
+  .get(protect, getUser)
+  .delete(protect, deleteUser);
 router.put(
   "/:id",
   [

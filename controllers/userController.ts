@@ -71,3 +71,35 @@ export const updateUser = catchAsync(async (req, res, next) => {
   }
   createSendToken(updatedUser, 201, res);
 });
+
+export const getAllUsers = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const data = await User.find();
+
+    //SEND RESPONSE
+    res.status(200).json({
+      totalItems: data.length,
+      data,
+    });
+  }
+);
+
+export const getUser = catchAsync(async (req, res, next) => {
+  const data = await User.findById(req.params.id);
+  if (!data) {
+    return next(new AppError("User not found", 404));
+  }
+  res.status(200).json({
+    data,
+  });
+});
+
+export const deleteUser = catchAsync(async (req, res, next) => {
+  const deletedUser = await User.findByIdAndDelete(req.params.id);
+  if (!deletedUser) {
+    return next(new AppError("User not found", 404));
+  }
+  res.status(200).json({
+    message: "User deleted successfully!",
+  });
+});

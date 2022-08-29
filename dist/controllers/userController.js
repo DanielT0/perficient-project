@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUser = exports.updateUserPartially = exports.createUser = void 0;
+exports.deleteUser = exports.getUser = exports.getAllUsers = exports.updateUser = exports.updateUserPartially = exports.createUser = void 0;
 const userModel_1 = __importDefault(require("../models/userModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
@@ -71,4 +71,30 @@ exports.updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(voi
         return next(new appError_1.default("No user found with that ID", 404));
     }
     createSendToken(updatedUser, 201, res);
+}));
+exports.getAllUsers = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield userModel_1.default.find();
+    //SEND RESPONSE
+    res.status(200).json({
+        totalItems: data.length,
+        data,
+    });
+}));
+exports.getUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const data = yield userModel_1.default.findById(req.params.id);
+    if (!data) {
+        return next(new appError_1.default("User not found", 404));
+    }
+    res.status(200).json({
+        data,
+    });
+}));
+exports.deleteUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const deletedUser = yield userModel_1.default.findByIdAndDelete(req.params.id);
+    if (!deletedUser) {
+        return next(new appError_1.default("User not found", 404));
+    }
+    res.status(200).json({
+        message: "User deleted successfully!",
+    });
 }));
