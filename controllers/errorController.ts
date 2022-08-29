@@ -38,7 +38,7 @@ const sendErrorProd = (err: AppError, res: Response) => {
   } else {
     res.status(500).json({
       status: "error",
-      message: "Something went very wrong!",
+      message: err,
     });
   }
 };
