@@ -12,13 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
+exports.updateUserPartially = exports.createUser = void 0;
 const userModel_1 = __importDefault(require("../models/userModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
+const appError_1 = __importDefault(require("../utils/appError"));
 const signToken = (id) => {
     return jsonwebtoken_1.default.sign({ id: id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
+    });
+};
+const createSendToken = (user, statusCode, res) => {
+    const token = signToken(user.id);
+    //Remove password from output
+    user.password = undefined;
+    res.status(statusCode).json({
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        token: token,
+        age: user.age,
+        image: user.image,
+        description: user.description,
     });
 };
 exports.createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
@@ -35,4 +51,14 @@ exports.createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(voi
     res.status(201).json({
         data: newUser,
     });
+}));
+exports.updateUserPartially = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const updatedUser = yield userModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+    });
+    if (!updatedUser) {
+        return next(new appError_1.default("No user found with that ID", 404));
+    }
+    createSendToken(updatedUser, 201, res);
 }));

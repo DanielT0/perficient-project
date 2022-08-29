@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel";
 import AppError from "../utils/appError";
 import catchAsync from "../utils/catchAsync";
+import { promisify } from "util";
 
 const signToken = (id: string): string => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -50,7 +51,6 @@ export const signup = catchAsync(
 export const login = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-
     //1) Check if email and password exist
     if (!email || !password) {
       return next(new AppError("Error in user or password", 400));
@@ -68,5 +68,31 @@ export const login = catchAsync(
     }
 
     createSendToken(user, 200, res);
+  }
+);
+
+export const protect = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    //1) Getting token and check if it exists
+    let token;
+    if (req.headers.token) {
+      token = req.headers.token;
+    }
+
+    if (!token) {
+      return next(new AppError("Token not found", 401));
+    }
+    //2) Validate token / verification
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    //3) Check if user still exists
+
+    const freshUser = await User.findById(decoded.id);
+    if (!freshUser) {
+      return next(
+        new AppError("The user belonging to this token does not exist", 401)
+      );
+    }
+    req.user = freshUser;
+    next();
   }
 );

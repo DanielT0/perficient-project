@@ -2,10 +2,33 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/userModel";
 import jwt from "jsonwebtoken";
 import catchAsync from "../utils/catchAsync";
+import AppError from "../utils/appError";
 
 const signToken = (id: string) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
+  });
+};
+
+const createSendToken = (
+  user: UserInterface,
+  statusCode: number,
+  res: Response
+) => {
+  const token = signToken(user.id);
+
+  //Remove password from output
+  user.password = undefined;
+
+  res.status(statusCode).json({
+    id: user.id,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+    token: token,
+    age: user.age,
+    image: user.image,
+    description: user.description,
   });
 };
 
@@ -26,3 +49,14 @@ export const createUser = catchAsync(
     });
   }
 );
+
+export const updateUserPartially = catchAsync(async (req, res, next) => {
+  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+  });
+  if (!updatedUser) {
+    return next(new AppError("No user found with that ID", 404));
+  }
+  createSendToken(updatedUser, 201, res);
+});
