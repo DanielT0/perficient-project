@@ -52,13 +52,14 @@ export const createUser = catchAsync(
 
 export const updateUserPartially = catchAsync(async (req, res, next) => {
   let updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
+    new: false,
+    runValidators: false,
+  }).select("+password");
   if (!updatedUser) {
     return next(new AppError("No user found with that ID", 404));
   }
-  (updatedUser.password = req.body.password), await updatedUser.save();
+  updatedUser.password = req.body.password || updatedUser.password;
+  await updatedUser.save();
   createSendToken(updatedUser, 200, res);
 });
 
