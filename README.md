@@ -1,4 +1,4 @@
-## Proyecto de entrenamiento Perficient
+# Perficient training project
 
 The endpoints for the API have been developed taking into account the instructions given in the file Considerations (1), which covers some technologies or tools that are below
 
@@ -30,7 +30,7 @@ In the considerations document is a function that covers pagination with mongoos
 
 ### Good practices
 
-The project was made with Typescript (except for the tests), express, mongodb, mongoose, dotenv and other modules. Some good practices and handling of errors were applied, as the use of mongoose middlewares and express middlewares for the fields validation
+The project was made with Typescript (except for the tests), express, mongodb, mongoose, dotenv and other modules. Some good practices and handling of errors were applied, as the use of mongoose middlewares, express middlewares for the fields validation and the application of SOLID principles
 
 ### Access
 
