@@ -29,18 +29,18 @@ const sendErrorDev = (err: AppError, res: Response) => {
 };
 
 const sendErrorProd = (err: AppError, res: Response) => {
-  //   if (err.isOperational) {
-  const error = err.message;
-  res.status(err.statusCode).json({
-    error,
-  });
-  //Programming or other unknown error: don't leak error details
-  //   } else {
-  //     res.status(500).json({
-  //       status: "error",
-  //       message: "Something went very wrong!",
-  //     });
-  //   }
+  if (err.isOperational) {
+    const error = err.message;
+    res.status(400).json({
+      error,
+    });
+    //Programming or other unknown error: don't leak error details
+  } else {
+    res.status(500).json({
+      status: "error",
+      message: "Something went very wrong!",
+    });
+  }
 };
 
 export default (
