@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateUserPartially = exports.createUser = void 0;
+exports.updateUser = exports.updateUserPartially = exports.createUser = void 0;
 const userModel_1 = __importDefault(require("../models/userModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
@@ -53,6 +53,16 @@ exports.createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(voi
     });
 }));
 exports.updateUserPartially = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const updatedUser = yield userModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+    });
+    if (!updatedUser) {
+        return next(new appError_1.default("No user found with that ID", 404));
+    }
+    createSendToken(updatedUser, 201, res);
+}));
+exports.updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedUser = yield userModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
         runValidators: true,
