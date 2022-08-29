@@ -51,14 +51,14 @@ export const createUser = catchAsync(
 );
 
 export const updateUserPartially = catchAsync(async (req, res, next) => {
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+  let updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
   if (!updatedUser) {
     return next(new AppError("No user found with that ID", 404));
   }
-  createSendToken(updatedUser, 201, res);
+  createSendToken(updatedUser, 200, res);
 });
 
 export const updateUser = catchAsync(async (req, res, next) => {
@@ -69,6 +69,7 @@ export const updateUser = catchAsync(async (req, res, next) => {
   if (!updatedUser) {
     return next(new AppError("No user found with that ID", 404));
   }
+  updatedUser.save();
   createSendToken(updatedUser, 201, res);
 });
 

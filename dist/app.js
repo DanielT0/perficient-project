@@ -26,3 +26,4 @@ const db = new db_1.default();
 server.listen();
 db.connect();
 app.use(errorController_1.default);
+module.exports = app;

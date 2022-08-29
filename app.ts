@@ -27,3 +27,5 @@ server.listen();
 db.connect();
 
 app.use(errorHandler);
+
+module.exports = app;

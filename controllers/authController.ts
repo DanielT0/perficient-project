@@ -59,7 +59,7 @@ export const login = catchAsync(
     //2) Check if user exists && password is correct
 
     const user = await User.findOne({ email }).select("+password");
-
+    console.log(user);
     if (
       !user ||
       !(await user.compareCorrectPassword(password, user.password || ""))

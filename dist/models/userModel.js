@@ -57,6 +57,7 @@ userSchema.pre("save", function (next) {
 });
 userSchema.methods.compareCorrectPassword = function (candidatePassword, userPassword) {
     return __awaiter(this, void 0, void 0, function* () {
+        console.log(candidatePassword, userPassword);
         return yield bcrypt_1.default.compare(candidatePassword, userPassword);
     });
 };

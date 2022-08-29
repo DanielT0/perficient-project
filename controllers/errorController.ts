@@ -8,9 +8,11 @@ const handleJWTError = () =>
 const handleJWTExpiredError = () =>
   new AppError("Your token has expired! Please log in again!", 401);
 
-const handleCastError = () => {
-  new AppError("User not found", 404);
-};
+const handleCastError = () => new AppError("User not found", 404);
+
+const handleDuplicateErrorDB = () =>
+  new AppError("Duplicate field (email) please use another value", 400);
+
 const sendValidationError = (err: AppError, res: Response) => {
   res.status(422).json({
     error: err,
@@ -27,18 +29,18 @@ const sendErrorDev = (err: AppError, res: Response) => {
 };
 
 const sendErrorProd = (err: AppError, res: Response) => {
-  if (err.isOperational) {
-    const error = err.message;
-    res.status(err.statusCode).json({
-      error,
-    });
-    //Programming or other unknown error: don't leak error details
-  } else {
-    res.status(500).json({
-      status: "error",
-      message: "Something went very wrong!",
-    });
-  }
+  //   if (err.isOperational) {
+  const error = err.message;
+  res.status(err.statusCode).json({
+    error,
+  });
+  //Programming or other unknown error: don't leak error details
+  //   } else {
+  //     res.status(500).json({
+  //       status: "error",
+  //       message: "Something went very wrong!",
+  //     });
+  //   }
 };
 
 export default (
@@ -47,8 +49,6 @@ export default (
   res: Response,
   next: NextFunction
 ) => {
-  err.statusCode = err.statusCode || 500;
-  console.log(process.env.NODE_ENV);
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
@@ -57,9 +57,10 @@ export default (
       error.name === "CastError" ||
       err.message === "No user found with that ID"
     )
-      error = handleCastError;
-    if (error.name === "JsonWebTokenError") error = handleJWTError;
-    if (error.name === "TokenExpiredError") error = handleJWTExpiredError;
+      error = handleCastError();
+    if (error.name === "JsonWebTokenError") error = handleJWTError();
+    if (error.code === 11000) error = handleDuplicateErrorDB();
+    if (error.name === "TokenExpiredError") error = handleJWTExpiredError();
     err.name === "ValidationError"
       ? sendValidationError(err, res)
       : sendErrorProd(error, res);

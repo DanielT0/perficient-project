@@ -57,6 +57,7 @@ exports.login = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, 
     }
     //2) Check if user exists && password is correct
     const user = yield userModel_1.default.findOne({ email }).select("+password");
+    console.log(user);
     if (!user ||
         !(yield user.compareCorrectPassword(password, user.password || ""))) {
         return next(new appError_1.default("Error in user or password", 401));
