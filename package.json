@@ -4,7 +4,7 @@
   "description": "Proyecto orientado a demostrar lo aprendido en las semanas de entrenamiento con la empresa",
   "main": "app.ts",
   "scripts": {
-    "start": "node dist/app.js",
+    "start": "nodemon dist/app.js",
     "test": "env-cmd -f ./test.env jest --watch"
   },
   "jest": {
@@ -27,5 +27,8 @@
     "@types/express": "^4.17.13",
     "env-cmd": "^10.1.0",
     "supertest": "^6.2.4"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   }
 }

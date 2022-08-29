@@ -53,7 +53,7 @@ exports.login = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, 
     const { email, password } = req.body;
     //1) Check if email and password exist
     if (!email || !password) {
-        return next(new appError_1.default("Error in user or password", 400));
+        return next(new appError_1.default("Error in user or password", 401));
     }
     //2) Check if user exists && password is correct
     const user = yield userModel_1.default.findOne({ email }).select("+password");

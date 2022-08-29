@@ -7,7 +7,7 @@ class Server {
     }
     listen() {
         this.app.listen(this.port, () => {
-            //   console.log(`App running on port ${this.port}`);
+            console.log(`App running on port ${this.port}`);
         });
     }
 }

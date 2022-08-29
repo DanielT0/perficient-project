@@ -22,20 +22,22 @@ const sendErrorDev = (err, res) => {
     });
 };
 const sendErrorProd = (err, res) => {
-    //   if (err.isOperational) {
-    const error = err.message;
-    res.status(err.statusCode).json({
-        error,
-    });
-    //Programming or other unknown error: don't leak error details
-    //   } else {
-    //     res.status(500).json({
-    //       status: "error",
-    //       message: "Something went very wrong!",
-    //     });
-    //   }
+    if (err.isOperational) {
+        const error = err.message;
+        res.status(err.statusCode).json({
+            error,
+        });
+        //Programming or other unknown error: don't leak error details
+    }
+    else {
+        res.status(500).json({
+            status: "error",
+            message: "Something went very wrong!",
+        });
+    }
 };
 exports.default = (err, req, res, next) => {
+    err.statusCode = err.statusCode || 500;
     if (process.env.NODE_ENV === "development") {
         sendErrorDev(err, res);
     }
