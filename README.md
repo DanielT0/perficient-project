@@ -35,6 +35,8 @@ The project was made with Typescript (except for the tests), express, mongodb, m
 
 If you run the code in your local device, it will run in PORT:3000 (which is configured in the config.env file), so the route will be localhost:3000/
 
+Initially the DB is empty
+
 The endpoints are made with the same structure that is established in the considerations file.
 
 However, if you want to access to the heroku app, you cand do it through this url: https://perficient-learning-project.herokuapp.com/
