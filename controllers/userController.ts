@@ -58,20 +58,23 @@ export const updateUserPartially = catchAsync(async (req, res, next) => {
   if (!updatedUser) {
     return next(new AppError("No user found with that ID", 404));
   }
-  createSendToken(updatedUser, 200, res);
-});
-
-export const updateUser = catchAsync(async (req, res, next) => {
-  const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  if (!updatedUser) {
-    return next(new AppError("No user found with that ID", 404));
-  }
-  updatedUser.save();
+  (updatedUser.password = req.body.password), await updatedUser.save();
   createSendToken(updatedUser, 201, res);
 });
+
+export const updateUser = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!updatedUser) {
+      return next(new AppError("No user found with that ID", 404));
+    }
+    (updatedUser.password = req.body.password), await updatedUser.save();
+    createSendToken(updatedUser, 201, res);
+  }
+);
 
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
