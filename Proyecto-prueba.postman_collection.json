@@ -1,0 +1,445 @@
+{
+	"info": {
+		"_postman_id": "a15c1d58-03fd-4691-9638-f02807116f73",
+		"name": "Proyecto-prueba",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18967542"
+	},
+	"item": [
+		{
+			"name": "Create new user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Daniel\",\r\n    \"last_name\": \"Torres\",\r\n    \"age\": 25,\r\n    \"email\": \"jaime@gmail.com\",\r\n    \"password\": \"123452\",\r\n    \"description\": \"Description text\",\r\n    \"image\": \"IMAGE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create new user Heroku",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Daniel\",\r\n    \"last_name\": \"Torres\",\r\n    \"age\": 25,\r\n    \"email\": \"jaime@gmail.com\",\r\n    \"password\": \"123452\",\r\n    \"description\": \"Description text\",\r\n    \"image\": \"IMAGE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://perficient-learning-project.herokuapp.com/users",
+					"protocol": "https",
+					"host": [
+						"perficient-learning-project",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "json-token",
+						"value": "nsadionsad",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jaime@gmail.com\",\r\n    \"password\": \"123452\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/login",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login Heroku",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "json-token",
+						"value": "nsadionsad",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jaime@gmail.com\",\r\n    \"password\": \"123452\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://perficient-learning-project.herokuapp.com/login",
+					"protocol": "https",
+					"host": [
+						"perficient-learning-project",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user partially",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGNkOTA5NThiYTMwNDc0MTc2NjkxMSIsImlhdCI6MTY2MTc4NjQ0MiwiZXhwIjoxNjYxNzg3NjQyfQ.2zHo_k2VDQ8kGZdrXuYoBJGEtXziPiRvIYGd3SrV1ZU",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Daniel\",\r\n    \"last_name\": \"Torres Orjuela\",\r\n    \"email\": \"jaime2@gmail.com\",\r\n    \"password\": \"1234527\",\r\n    \"age\": 24,\r\n    \"description\": \"Description text\",\r\n    \"image\": \"IMAGE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/630cd90958ba304741766911",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"630cd90958ba304741766911"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGNkOTA5NThiYTMwNDc0MTc2NjkxMSIsImlhdCI6MTY2MTc4NjQ0MiwiZXhwIjoxNjYxNzg3NjQyfQ.2zHo_k2VDQ8kGZdrXuYoBJGEtXziPiRvIYGd3SrV1ZU",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Daniel\",\r\n    \"last_name\": \"Torres Orjuela\",\r\n    \"email\": \"jaime2@gmail.com\",\r\n    \"password\": \"1234527\",\r\n    \"age\": 24,\r\n    \"description\": \"Description text\",\r\n    \"image\": \"IMAGE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/users/630cd90958ba304741766911",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"630cd90958ba304741766911"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user Heroku",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGNkOTA5NThiYTMwNDc0MTc2NjkxMSIsImlhdCI6MTY2MTc4NjQ0MiwiZXhwIjoxNjYxNzg3NjQyfQ.2zHo_k2VDQ8kGZdrXuYoBJGEtXziPiRvIYGd3SrV1ZU",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Daniel\",\r\n    \"last_name\": \"Torres Orjuela\",\r\n    \"email\": \"jaime2@gmail.com\",\r\n    \"password\": \"1234527\",\r\n    \"age\": 24,\r\n    \"description\": \"Description text\",\r\n    \"image\": \"IMAGE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://perficient-learning-project.herokuapp.com/users/630cd90958ba304741766911",
+					"protocol": "https",
+					"host": [
+						"perficient-learning-project",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						"630cd90958ba304741766911"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user partially Heroku",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGM4MzkyNTE2MjdhOWE4N2NhNWNjOCIsImlhdCI6MTY2MTc2NDQ5OCwiZXhwIjoxNjYxNzY1Njk4fQ.PsjP3ud-sqSv_MVb1BHnuYGT-TtiKXEmUrOYStbcVHY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Daniel Esteban\",\r\n    \"last_name\": \"Torres\",\r\n    \"email\": \"jaime@gmail.com\",\r\n    \"password\": \"123452\",\r\n    \"age\": 24,\r\n    \"description\": \"Description text\",\r\n    \"image\": \"IMAGE\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://perficient-learning-project.herokuapp.com/users/630cd90958ba304741766911",
+					"protocol": "https",
+					"host": [
+						"perficient-learning-project",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						"630cd90958ba304741766911"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGM1MThkODUwNmU2YTVjODFiN2Y0NiIsImlhdCI6MTY2MTc1ODk5MywiZXhwIjoxNjYxNzYwMTkzfQ.VbhUwbc6nefOtnm05HOSIZ1PmWcjqFGxDqnB6qAD2lM",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/users/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all users Heroku",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGNkOTA5NThiYTMwNDc0MTc2NjkxMSIsImlhdCI6MTY2MTc4NjQ0MiwiZXhwIjoxNjYxNzg3NjQyfQ.2zHo_k2VDQ8kGZdrXuYoBJGEtXziPiRvIYGd3SrV1ZU",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://perficient-learning-project.herokuapp.com/users/",
+					"protocol": "https",
+					"host": [
+						"perficient-learning-project",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGM0ZDUzMDdlMTk0ZDgzZDgzMWU0YiIsImlhdCI6MTY2MTc1MDk0MywiZXhwIjoxNjYxNzUyMTQzfQ.kktONcNKvBf_fJzr32-UD8tlBCGL2Fqcf3chlOeRXEY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/users/630c4d5307e194d83d831e",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"630c4d5307e194d83d831e"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user Heroku",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGNkOTA5NThiYTMwNDc0MTc2NjkxMSIsImlhdCI6MTY2MTc4NjczNSwiZXhwIjoxNjYxNzg3OTM1fQ.dAnEHxJEWuZbST8_f8oKuOLnhu1OZykR1EGo7FnZtaw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://perficient-learning-project.herokuapp.com/users/630cd90958ba30",
+					"protocol": "https",
+					"host": [
+						"perficient-learning-project",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						"630cd90958ba30"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete user",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGM1MThkODUwNmU2YTVjODFiN2Y0NiIsImlhdCI6MTY2MTc1MTY5NCwiZXhwIjoxNjYxNzUyODk0fQ.6IFWamGqp_b4QsbNlV0_jM0IJXGbc0OdQvVKi9seOYQ",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:3000/users/630c4d5307e194d83d831e4b",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"630c4d5307e194d83d831e4b"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Heroku",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzMGNlNWY1OTE1OWRlZWQyZWE0ZDFkNiIsImlhdCI6MTY2MTc4OTY5MiwiZXhwIjoxNjYxNzkwODkyfQ.rPJOO60Y1yT9DBYZpo7FRwAIpGFd9QywBF-IC_3D0Vo",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://perficient-learning-project.herokuapp.com/users/630ce5f59159deed2ea4d1d6",
+					"protocol": "https",
+					"host": [
+						"perficient-learning-project",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"users",
+						"630ce5f59159deed2ea4d1d6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -44,6 +44,12 @@ However, if you want to access to the heroku app, you cand do it through this ur
 
 The endpoints attached to it are the same as they are in local
 
+In addition, in the root folder you'll find a .postman_collection.json file, which contains POSTMAN templates to communicate with the API
+
+### Important commands
+
+Please, if you'll execute the app for the first time in local, don't forget to execute the npm i command to download the node_modules
+
 ### Config.env
 
 You must have env variables to run the app in local, this document will be provided personally as it has important data
