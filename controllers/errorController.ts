@@ -2,6 +2,21 @@ import { Request, Response, NextFunction } from "express";
 import User from "../models/userModel";
 import AppError from "../utils/appError";
 
+const handleJWTError = () =>
+  new AppError("Invalid token. Please login again", 401);
+
+const handleJWTExpiredError = () =>
+  new AppError("Your token has expired! Please log in again!", 401);
+
+const handleCastError = () => {
+  new AppError("User not found", 404);
+};
+const sendValidationError = (err: AppError, res: Response) => {
+  res.status(422).json({
+    error: err,
+  });
+};
+
 const sendErrorDev = (err: AppError, res: Response) => {
   res.status(err.statusCode).json({
     status: err.status,
@@ -11,16 +26,19 @@ const sendErrorDev = (err: AppError, res: Response) => {
   });
 };
 
-const sendErrorProd = (err: string, status: number, res: Response) => {
-  res.status(status).json({
-    error: err,
-  });
-};
-
-const sendValidationError = (err: AppError, res: Response) => {
-  res.status(422).json({
-    error: err,
-  });
+const sendErrorProd = (err: AppError, res: Response) => {
+  if (err.isOperational) {
+    const error = err.message;
+    res.status(err.statusCode).json({
+      error,
+    });
+    //Programming or other unknown error: don't leak error details
+  } else {
+    res.status(500).json({
+      status: "error",
+      message: "Something went very wrong!",
+    });
+  }
 };
 
 export default (
@@ -30,22 +48,20 @@ export default (
   next: NextFunction
 ) => {
   err.statusCode = err.statusCode || 500;
-  if (err.name === "ValidationError") {
-    sendValidationError(err, res);
+  console.log(process.env.NODE_ENV);
+  if (process.env.NODE_ENV === "development") {
+    sendErrorDev(err, res);
+  } else if (process.env.NODE_ENV === "production") {
+    let error = Object.assign(err);
+    if (
+      error.name === "CastError" ||
+      err.message === "No user found with that ID"
+    )
+      error = handleCastError;
+    if (error.name === "JsonWebTokenError") error = handleJWTError;
+    if (error.name === "TokenExpiredError") error = handleJWTExpiredError;
+    err.name === "ValidationError"
+      ? sendValidationError(err, res)
+      : sendErrorProd(error, res);
   }
-  if (err.name === "JsonWebTokenError") {
-    sendErrorProd("Token Invalid", 401, res);
-  }
-  if (err.name === "TokenExpiredError") {
-    sendErrorProd("Token Expired", 401, res);
-  }
-
-  if (
-    err.message === "No user found with that ID" ||
-    err.name === "CastError"
-  ) {
-    sendErrorProd("User not found", 404, res);
-  }
-
-  sendErrorDev(err, res);
 };
