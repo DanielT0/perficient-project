@@ -53,7 +53,7 @@ export const login = catchAsync(
     const { email, password } = req.body;
     //1) Check if email and password exist
     if (!email || !password) {
-      return next(new AppError("Error in user or password", 400));
+      return next(new AppError("Error in user or password", 401));
     }
 
     //2) Check if user exists && password is correct

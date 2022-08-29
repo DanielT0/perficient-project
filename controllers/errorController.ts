@@ -49,6 +49,7 @@ export default (
   res: Response,
   next: NextFunction
 ) => {
+  err.statusCode = err.statusCode || 500;
   if (process.env.NODE_ENV === "development") {
     sendErrorDev(err, res);
   } else if (process.env.NODE_ENV === "production") {
