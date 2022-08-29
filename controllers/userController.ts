@@ -59,7 +59,7 @@ export const updateUserPartially = catchAsync(async (req, res, next) => {
     return next(new AppError("No user found with that ID", 404));
   }
   (updatedUser.password = req.body.password), await updatedUser.save();
-  createSendToken(updatedUser, 201, res);
+  createSendToken(updatedUser, 200, res);
 });
 
 export const updateUser = catchAsync(

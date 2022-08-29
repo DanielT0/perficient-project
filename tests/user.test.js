@@ -44,20 +44,20 @@ describe("Obtaining token", () => {
   }, 20000);
 });
 
-// describe("Updating user (PATCH)", () => {
-//   it("Should partially update an user", async () => {
-//     const res = await request(app)
-//       .patch(`/users/${id}`)
-//       .set("Token", `${token}`)
-//       .send({
-//         email: "admin2@gmail.com",
-//         password: "123452",
-//       })
-//       .expect(200);
-//     userOne = res.body;
-//     token = res.token;
-//   }, 20000);
-// });
+describe("Updating user (PATCH)", () => {
+  it("Should partially update an user", async () => {
+    const res = await request(app)
+      .patch(`/users/${id}`)
+      .set("Token", `${token}`)
+      .send({
+        email: "admin2@gmail.com",
+        password: "123452",
+      })
+      .expect(200);
+    userOne = res.body;
+    token = res.body.token;
+  }, 20000);
+});
 
 describe("Updating entire user (PUT)", () => {
   it("Should update an user", async () => {
@@ -75,16 +75,33 @@ describe("Updating entire user (PUT)", () => {
       })
       .expect(201);
     userOne = res.body;
-    token = res.token;
+    token = res.body.token;
   }, 20000);
 });
 
-// describe("Get all users", () => {
-//   it("Should get all the users", async () => {
-//     const res = await request(app)
-//       .get(`/users/`)
-//       .set("Token", `${token}`)
-//       .expect(200);
-//     userOne = res.body;
-//   }, 20000);
-// });
+describe("Get all users", () => {
+  it("Should get all the users", async () => {
+    const res = await request(app)
+      .get(`/users/`)
+      .set("Token", `${token}`)
+      .expect(200);
+  }, 20000);
+});
+
+describe("Get user", () => {
+  it("Should get an user", async () => {
+    const res = await request(app)
+      .get(`/users/${id}`)
+      .set("Token", `${token}`)
+      .expect(200);
+  }, 20000);
+});
+
+describe("Delete user", () => {
+  it("Should delete an user", async () => {
+    const res = await request(app)
+      .delete(`/users/${id}`)
+      .set("Token", `${token}`)
+      .expect(200);
+  }, 20000);
+});

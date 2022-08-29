@@ -61,7 +61,7 @@ exports.updateUserPartially = (0, catchAsync_1.default)((req, res, next) => __aw
         return next(new appError_1.default("No user found with that ID", 404));
     }
     (updatedUser.password = req.body.password), yield updatedUser.save();
-    createSendToken(updatedUser, 201, res);
+    createSendToken(updatedUser, 200, res);
 }));
 exports.updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const updatedUser = yield userModel_1.default.findByIdAndUpdate(req.params.id, req.body, {
