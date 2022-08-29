@@ -43,27 +43,36 @@ const sendErrorProd = (err: AppError, res: Response) => {
   }
 };
 
+const sendErrorProd2 = (err: string, res: Response) => {
+  const error = err;
+  res.status(400).json({
+    error,
+  });
+};
+
 export default (
   err: AppError,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  err.statusCode = err.statusCode || 500;
-  if (process.env.NODE_ENV === "development") {
-    sendErrorDev(err, res);
-  } else if (process.env.NODE_ENV === "production") {
-    let error = Object.assign(err);
-    if (
-      error.name === "CastError" ||
-      err.message === "No user found with that ID"
-    )
-      error = handleCastError();
-    if (error.name === "JsonWebTokenError") error = handleJWTError();
-    if (error.code === 11000) error = handleDuplicateErrorDB();
-    if (error.name === "TokenExpiredError") error = handleJWTExpiredError();
-    err.name === "ValidationError"
-      ? sendValidationError(err, res)
-      : sendErrorProd(error, res);
-  }
+  // err.statusCode = err.statusCode || 500;
+  // if (process.env.NODE_ENV === "development") {
+  //   sendErrorDev(err, res);
+  // } else if (process.env.NODE_ENV === "production") {
+  //   let error = Object.assign(err);
+  //   if (
+  //     error.name === "CastError" ||
+  //     err.message === "No user found with that ID"
+  //   )
+  //     error = handleCastError();
+  //   if (error.name === "JsonWebTokenError") error = handleJWTError();
+  //   if (error.code === 11000) error = handleDuplicateErrorDB();
+  //   if (error.name === "TokenExpiredError") error = handleJWTExpiredError();
+  //   err.name === "ValidationError"
+  //     ? sendValidationError(err, res)
+  //     : sendErrorProd(error, res);
+  // }
+
+  sendErrorProd2("Error", res);
 };
