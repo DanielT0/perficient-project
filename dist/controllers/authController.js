@@ -12,16 +12,32 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
-const userModel_1 = __importDefault(require("../models/userModel"));
+exports.login = exports.signup = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const userModel_1 = __importDefault(require("../models/userModel"));
+const appError_1 = __importDefault(require("../utils/appError"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const signToken = (id) => {
     return jsonwebtoken_1.default.sign({ id: id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
     });
 };
-exports.createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const createSendToken = (user, statusCode, res) => {
+    const token = signToken(user.id);
+    //Remove password from output
+    user.password = undefined;
+    res.status(statusCode).json({
+        id: user.id,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        email: user.email,
+        token: token,
+        age: user.age,
+        image: user.image,
+        description: user.description,
+    });
+};
+exports.signup = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const newUser = yield userModel_1.default.create({
         first_name: req.body.first_name,
         last_name: req.body.last_name,
@@ -31,8 +47,19 @@ exports.createUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(voi
         description: req.body.description,
         password: req.body.password,
     });
-    newUser.password = undefined;
-    res.status(201).json({
-        data: newUser,
-    });
+    createSendToken(newUser, 201, res);
+}));
+exports.login = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    //1) Check if email and password exist
+    if (!email || !password) {
+        return next(new appError_1.default("Error in user or password", 400));
+    }
+    //2) Check if user exists && password is correct
+    const user = yield userModel_1.default.findOne({ email }).select("+password");
+    if (!user ||
+        !(yield user.compareCorrectPassword(password, user.password || ""))) {
+        return next(new appError_1.default("Error in user or password", 401));
+    }
+    createSendToken(user, 200, res);
 }));
