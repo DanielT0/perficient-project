@@ -17,6 +17,7 @@ const userModel_1 = __importDefault(require("../models/userModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const catchAsync_1 = __importDefault(require("../utils/catchAsync"));
 const appError_1 = __importDefault(require("../utils/appError"));
+const APIFeatures_1 = __importDefault(require("../utils/APIFeatures"));
 const signToken = (id) => {
     return jsonwebtoken_1.default.sign({ id: id }, process.env.JWT_SECRET, {
         expiresIn: process.env.JWT_EXPIRES_IN,
@@ -75,11 +76,13 @@ exports.updateUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(voi
     createSendToken(updatedUser, 201, res);
 }));
 exports.getAllUsers = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const data = yield userModel_1.default.find();
+    console.log(typeof userModel_1.default);
+    const api = new APIFeatures_1.default(req);
+    const data = yield api.paginate(userModel_1.default, req.query);
     //SEND RESPONSE
     res.status(200).json({
-        totalItems: data.length,
-        data,
+        totalItems: data.totalDocs,
+        data: data.docs,
     });
 }));
 exports.getUser = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {

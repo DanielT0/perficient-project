@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const mongoosePaginate = require("mongoose-paginate-v2");
 const userSchema = new mongoose_1.default.Schema({
     first_name: {
         type: String,
@@ -40,6 +41,7 @@ const userSchema = new mongoose_1.default.Schema({
         select: false,
     },
 });
+userSchema.plugin(mongoosePaginate);
 //Deletes versionKey and transforms _id into id
 userSchema.set("toJSON", {
     virtuals: true,
