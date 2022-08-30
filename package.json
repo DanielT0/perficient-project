@@ -4,7 +4,7 @@
   "description": "Proyecto orientado a demostrar lo aprendido en las semanas de entrenamiento con la empresa",
   "main": "app.ts",
   "scripts": {
-    "start": "nodemon dist/app.js",
+    "start": "node dist/app.js",
     "test": "env-cmd -f ./test.env jest --watch"
   },
   "jest": {
