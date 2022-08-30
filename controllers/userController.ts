@@ -3,6 +3,8 @@ import User from "../models/userModel";
 import jwt from "jsonwebtoken";
 import catchAsync from "../utils/catchAsync";
 import AppError from "../utils/appError";
+import { Model, Models, Schema } from "mongoose";
+import APIFeatures from "../utils/APIFeatures";
 
 const signToken = (id: string) => {
   return jwt.sign({ id: id }, process.env.JWT_SECRET, {
@@ -79,12 +81,14 @@ export const updateUser = catchAsync(
 
 export const getAllUsers = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const data = await User.find();
+    console.log(typeof User);
+    const api = new APIFeatures(req);
+    const data = await api.paginate(User, req.query);
 
     //SEND RESPONSE
     res.status(200).json({
-      totalItems: data.length,
-      data,
+      totalItems: data.totalDocs,
+      data: data.docs,
     });
   }
 );

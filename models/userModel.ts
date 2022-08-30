@@ -1,6 +1,7 @@
 import { NextFunction } from "express";
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const userSchema = new mongoose.Schema<UserInterface>({
   first_name: {
@@ -28,6 +29,8 @@ const userSchema = new mongoose.Schema<UserInterface>({
     select: false,
   },
 });
+
+userSchema.plugin(mongoosePaginate);
 
 //Deletes versionKey and transforms _id into id
 userSchema.set("toJSON", {
